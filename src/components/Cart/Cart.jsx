@@ -4,14 +4,12 @@ import {Link} from 'react-router-dom'
 import CartItem from './CartItem/CartItem'
 import useStyles from './styles'
 
-const Cart = ({cart}) => {
+const Cart = ({cart,handleEmptyCart,handleUpdateCartQty,handleRemoveFromCart}) => {
     const classes=useStyles()
-    const isEmpty=!cart?.line_items?.length;
-    console.log(cart)
 
     const EmptyCart=()=>(
         <Typography variant="subtitle1">You have no items in your cart,
-        <Link to="/"> start adding some.</Link> </Typography>
+        <Link to="/" className={classes.link} > start adding some.</Link> </Typography>
     )
     const FilledCart=()=>{
         return(
@@ -19,7 +17,7 @@ const Cart = ({cart}) => {
         <Grid container spacing={3}>
             {cart.line_items.map((item)=>(
                 <Grid item xs={12} sm={4} key={item.id}>
-                    <CartItem item={item}/>
+                    <CartItem item={item} onUpdateCartQty={handleUpdateCartQty} onRemoveFromCart={handleRemoveFromCart}/>
                 </Grid>
             ))}
         </Grid>
@@ -33,11 +31,14 @@ const Cart = ({cart}) => {
                 size="large" 
                 type="button" 
                 variant="contained" 
-                color="secondary">
+                color="secondary"
+                onClick={handleEmptyCart}>
                     Empty Cart
                 </Button>
                 <Button 
                 className={classes.checkoutButton} 
+                component={Link}
+                to="/checkout"
                 size="large" 
                 type="button" 
                 variant="contained" 

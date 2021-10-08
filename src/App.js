@@ -1,6 +1,6 @@
 import React,{useState,useEffect} from 'react'
 import { commerce } from './lib/commerce'
-import {Products,Navbar,Cart} from './components'
+import {Products,Navbar,Cart,Checkout} from './components'
 import {BrowserRouter as Router,Switch,Route } from 'react-router-dom'
 
 require('dotenv').config()
@@ -43,7 +43,6 @@ const App = () => {
     fetchProducts();
     fetchCart()
     },[])
-    console.log(cart)
     return (
         <Router>
         <div>
@@ -55,7 +54,12 @@ const App = () => {
             <Route path="/cart" >
                <Cart 
                cart={cart}
-               handleUpdateCartQty={}/>
+               handleUpdateCartQty={handleUpdateCartQty}
+               handleRemoveFromCart={handleRemoveFromCart}
+               handleEmptyCart={handleEmptyCart}/>
+            </Route>
+            <Route exact path="/checkout">
+                <Checkout cart={cart}/>
             </Route>
             </Switch>
         </div>
